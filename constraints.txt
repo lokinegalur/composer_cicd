@@ -1,6 +1,6 @@
 # constraints file from https://raw.githubusercontent.com/apache/airflow/constraints-2.2.5/constraints-3.8.txt
 #
-# This constraints file was automatically generated on 2022-03-30T07:13:50Z
+# This constraints file was automatically generated on 2022-03-30T07:13:50
 # via "eager-upgrade" mechanism of PIP. For the "v2-2-test" branch of Airflow.
 # This variant of constraints install uses the HEAD of the branch version for 'apache-airflow' but installs
 # the providers from PIP-released packages at the moment of the constraint generation.

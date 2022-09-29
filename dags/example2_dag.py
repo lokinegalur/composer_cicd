@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import datetime
 
 from airflow import models
@@ -22,7 +23,7 @@ from airflow.operators import bash
 YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 
 default_args = {
-    "owner": "Composer Example",
+    "owner": "Composer Example 2",
     "depends_on_past": False,
     "email": [""],
     "email_on_failure": False,
@@ -33,7 +34,7 @@ default_args = {
 }
 
 with models.DAG(
-    "composer_sample_dag",
+    "composer_sample_dag_2",
     "catchup=False",
     default_args=default_args,
     schedule_interval=datetime.timedelta(days=1),

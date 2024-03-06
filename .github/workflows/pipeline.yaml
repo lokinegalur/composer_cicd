@@ -29,8 +29,8 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: "Use gcloud CLI"
-        run: "gcloud info"
+      # - name: "Use gcloud CLI"
+      #   run: "gcloud info"
 
       - name: "Docker auth"
         run: |-
@@ -53,6 +53,10 @@ jobs:
       
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "gcloud auth"
+        run: |-
+          gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ secrets.SERVICE_ACCOUNT_KEY }} --project=${{ env.PROJECT_ID }}
 
       # - name: configure gcloud
       #   id: config_gcloud

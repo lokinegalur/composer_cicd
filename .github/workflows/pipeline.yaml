@@ -11,6 +11,8 @@ env:
   REGION: us-central1
   GAR_LOCATION: us-central1-docker.pkg.dev/prj-diameterhealth-working/docker-repo
   IMAGE_NAME: test
+  TERRAFORM_WORKING_DIR: ./terraform
+  TERRAFORM_VERSION: latest
 
 jobs:
   build-push-artifact:
@@ -40,3 +42,72 @@ jobs:
 
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+  terraform-execution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set GCP environment
+        id: set_gcp_env
+        run: echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_BASE_REF#refs/heads/})
+
+      - name: configure gcloud
+        id: config_gcloud
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "latest"
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: checkout
+        id: checkout_code
+        uses: actions/checkout@v2
+
+      # - name: set GCP project
+      #   id: config_project
+      #   run: gcloud config set project xxxx
+
+      # - name: "Decrypt key service account"
+      #   id: decrypt_SA
+      #   run: gcloud secrets versions access latest --secret=test-terraform-key --project="xxxx" 
+      #   working-directory: "environments/${{ env.BRANCH_NAME }}"
+
+      - name: "Terraform Init"
+        id: terraform_init
+        uses: ops18/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.TERRAFORM_VERSION }}
+          tf_actions_comment: "false"
+          tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
+          tf_actions_subcommand: init
+        env:
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}
+      - name: "Terraform Validate"
+        id: terraform_validate
+        uses: ops18/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.TERRAFORM_VERSION }}
+          tf_actions_comment: "false"
+          tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
+          tf_actions_subcommand: validate
+        env:
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}} 
+      - name: "Terraform Plan"
+        id: terraform_plan
+        uses: ops18/terraform-github-actions@master
+        with:
+          tf_actions_version: ${{ env.TERRAFORM_VERSION }}
+          tf_actions_comment: "false"
+          tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
+          tf_actions_subcommand: plan
+        env:
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}
+          
+      - name: "Terraform Apply"
+        uses: ops18/terraform-github-actions@master
+        id: terraform_apply
+        with:
+          tf_actions_version: ${{ env.TERRAFORM_VERSION }}
+          tf_actions_comment: "false"
+          tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
+          tf_actions_subcommand: apply
+        env:
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}

@@ -42,20 +42,25 @@ jobs:
 
       - name: Push image
         run: docker push ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  # terraform job
   terraform-execution:
     runs-on: ubuntu-latest
     steps:
       - name: Set GCP environment
         id: set_gcp_env
-        run: echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_BASE_REF#refs/heads/})
+        run: echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_BASE_REF#refs/heads/})  
+      
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: configure gcloud
-        id: config_gcloud
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: "latest"
-          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      # - name: configure gcloud
+      #   id: config_gcloud
+      #   uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      #   with:
+      #     version: "latest"
+      #     service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
       - name: checkout
         id: checkout_code

@@ -113,7 +113,8 @@ jobs:
           tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
           tf_actions_subcommand: plan
         env:
-          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}
+          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.SERVICE_ACCOUNT_KEY }}
           
       # - name: "Terraform Apply"
       #   uses: ops18/terraform-github-actions@master

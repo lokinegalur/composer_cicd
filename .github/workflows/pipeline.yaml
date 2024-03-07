@@ -53,7 +53,7 @@ jobs:
       - name: checkout
         id: checkout_code
         uses: actions/checkout@v2
-        
+
       - id: "auth"
         uses: "google-github-actions/auth@v1"
         with:
@@ -115,13 +115,13 @@ jobs:
         env:
           GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}
           
-      - name: "Terraform Apply"
-        uses: ops18/terraform-github-actions@master
-        id: terraform_apply
-        with:
-          tf_actions_version: ${{ env.TERRAFORM_VERSION }}
-          tf_actions_comment: "false"
-          tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
-          tf_actions_subcommand: apply
-        env:
-          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}
+      # - name: "Terraform Apply"
+      #   uses: ops18/terraform-github-actions@master
+      #   id: terraform_apply
+      #   with:
+      #     tf_actions_version: ${{ env.TERRAFORM_VERSION }}
+      #     tf_actions_comment: "false"
+      #     tf_actions_working_dir: ${{ env.TERRAFORM_WORKING_DIR }}
+      #     tf_actions_subcommand: apply
+      #   env:
+      #     GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY}}

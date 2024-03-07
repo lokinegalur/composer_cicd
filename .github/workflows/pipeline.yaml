@@ -50,6 +50,14 @@ jobs:
       # - name: Set GCP environment
       #   id: set_gcp_env
       #   run: echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_BASE_REF#refs/heads/})  
+      - name: checkout
+        id: checkout_code
+        uses: actions/checkout@v2
+        
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.SERVICE_ACCOUNT_KEY }}"
       
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
@@ -58,17 +66,14 @@ jobs:
       #   run: |-
       #     gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ secrets.SERVICE_ACCOUNT_KEY }} --project=${{ env.PROJECT_ID }}
 
-      - name: configure gcloud
-        id: config_gcloud
-        uses: GoogleCloudPlatform/google-github-actions/setup-gcloud@v0
-        with:
-          version: "latest"
-          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      # - name: configure gcloud
+      #   id: config_gcloud
+      #   uses: GoogleCloudPlatform/google-github-actions/setup-gcloud@v0
+      #   with:
+      #     version: "latest"
+      #     service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
-      - name: checkout
-        id: checkout_code
-        uses: actions/checkout@v2
 
       # - name: set GCP project
       #   id: config_project

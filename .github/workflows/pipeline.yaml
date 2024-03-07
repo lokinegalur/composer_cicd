@@ -76,10 +76,10 @@ jobs:
       - name: Terraform plan
         run: |
           cd ${{ env.TERRAFORM_WORKING_DIR }}
-          terraform plan -out tf.plan
+          terraform plan -out plan.out
       
       - name: Terraform apply
         run: |
             cd ${{ env.TERRAFORM_WORKING_DIR }}
-            terraform apply -out tf.plan
+            terraform apply plan.out --auto-approve
             

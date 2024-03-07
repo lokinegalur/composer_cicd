@@ -15,32 +15,33 @@ env:
   TERRAFORM_VERSION: latest
 
 jobs:
-  # build-push-artifact:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: "Checkout"
-  #       uses: "actions/checkout@v3"
+  # Build and Push docker image
+  build-push-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
 
-  #     - id: "auth"
-  #       uses: "google-github-actions/auth@v1"
-  #       with:
-  #         credentials_json: "${{ secrets.SERVICE_ACCOUNT_KEY }}"
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.SERVICE_ACCOUNT_KEY }}"
 
-  #     - name: "Set up Cloud SDK"
-  #       uses: "google-github-actions/setup-gcloud@v1"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
 
-  #     - name: "Docker auth"
-  #       run: |-
-  #         gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+      - name: "Docker auth"
+        run: |-
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
           
-  #     - name: Build image
-  #       run: docker build . --file Dockerfile --tag ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-  #       working-directory: ./test
+      - name: Build image
+        run: docker build . --file Dockerfile --tag ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        working-directory: ./test
 
-  #     - name: Push image
-  #       run: docker push ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      - name: Push image
+        run: docker push ${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-  # terraform job
+  # terraform init, plan and apply
   terraform-execution:
     runs-on: ubuntu-latest
     steps:

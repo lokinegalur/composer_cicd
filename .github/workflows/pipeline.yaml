@@ -63,12 +63,23 @@ jobs:
         with:
             terraform_version: 1.5.7
       
-      - name: Terraform init and validate
+      - name: Terraform init
         run: |
           cd ${{ env.TERRAFORM_WORKING_DIR }}
           terraform init
+      
+      - name: Terraform validate
+        run: |
+            cd ${{ env.TERRAFORM_WORKING_DIR }}
+            terraform validate
 
       - name: Terraform plan
         run: |
           cd ${{ env.TERRAFORM_WORKING_DIR }}
-          terraform plan
+          terraform plan -out tf.plan
+      
+      - name: Terraform apply
+        run: |
+            cd ${{ env.TERRAFORM_WORKING_DIR }}
+            terraform apply -out tf.plan
+            

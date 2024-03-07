@@ -52,7 +52,7 @@ jobs:
       #   run: echo ::set-env name=BRANCH_NAME::$(echo ${GITHUB_BASE_REF#refs/heads/})  
       
       - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v1"
+        uses: "google-github-actions/setup-gcloud@v2"
 
       # - name: "gcloud auth"
       #   run: |-

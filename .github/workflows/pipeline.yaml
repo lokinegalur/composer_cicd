@@ -54,17 +54,17 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: "gcloud auth"
-        run: |-
-          gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ secrets.SERVICE_ACCOUNT_KEY }} --project=${{ env.PROJECT_ID }}
+      # - name: "gcloud auth"
+      #   run: |-
+      #     gcloud auth activate-service-account ${{ secrets.SERVICE_ACCOUNT_EMAIL }} --key-file=${{ secrets.SERVICE_ACCOUNT_KEY }} --project=${{ env.PROJECT_ID }}
 
-      # - name: configure gcloud
-      #   id: config_gcloud
-      #   uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      #   with:
-      #     version: "latest"
-      #     service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
-      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      - name: configure gcloud
+        id: config_gcloud
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "latest"
+          service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
       - name: checkout
         id: checkout_code

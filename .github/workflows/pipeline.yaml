@@ -71,8 +71,8 @@ jobs:
       
       - name: Terraform init and validate
         run: |
-          terraform init
+          terraform init -chdir=${{ env.TERRAFORM_WORKING_DIR }}
 
       - name: Terraform plan
         run: |
-          terraform plan
+          terraform plan -chdir=${{ env.TERRAFORM_WORKING_DIR }}

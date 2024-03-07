@@ -81,5 +81,5 @@ jobs:
       - name: Terraform apply
         run: |
             cd ${{ env.TERRAFORM_WORKING_DIR }}
-            terraform apply plan.out --auto-approve
+            terraform apply plan.out
             

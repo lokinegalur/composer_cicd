@@ -60,7 +60,7 @@ jobs:
 
       - name: configure gcloud
         id: config_gcloud
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: GoogleCloudPlatform/google-github-actions/setup-gcloud@v0
         with:
           version: "latest"
           service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
